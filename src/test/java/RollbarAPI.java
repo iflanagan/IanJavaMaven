@@ -1,4 +1,5 @@
 
+import javax.crypto.spec.PSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -119,6 +120,8 @@ public class RollbarAPI {
 
     public boolean deploy(String token, String env, String vers) {
 
+        System.out.println("Notify Rollbar that we did a deploy");
+
         URL url = null;
         BufferedReader reader = null;
         StringBuilder stringBuilder;
@@ -157,7 +160,7 @@ public class RollbarAPI {
 
             int responseCode = connection.getResponseCode();
             System.out.println("Code is: " +responseCode);
-        //    System.out.println("Rollbar Deploy response is : " +connection.getResponseMessage());
+            System.out.println("Rollbar Deploy response is : " +connection.getResponseMessage());
 
             if (responseCode == 200) {
                 System.out.println("Deploy was successful");

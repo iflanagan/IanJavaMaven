@@ -33,7 +33,7 @@ public class MyTests {
        try {
 
            RollbarAPI rbapi = new RollbarAPI();
-        //   rbapi.deploy(MyConfig.myToken, MyConfig.myENv, MyConfig.myVersion);
+           rbapi.deploy(MyConfig.myToken, MyConfig.myENv, MyConfig.myVersion);
            rollbar.info("Close Rollbar Connection");
            rollbar.close(true);
        } catch (Exception e) {
