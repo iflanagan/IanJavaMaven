@@ -22,7 +22,7 @@ public class MyTests {
        // create instance of rollbarutils class
        RollbarUtils rb = new RollbarUtils();
        // call constructor which returns a rollbar object
-       rollbar = rb.RollbarUtils(MyConfig.myToken, MyConfig.myENv, MyConfig.myVersion);
+       rollbar = rb.RollbarUtils(MyConfig.myToken, MyConfig.myTestEnv, MyConfig.myVersion);
        System.out.println("Connecting to rollbar with Token: " +rb.getToken()+ " Environment: " +rb.getEnvironment()+ " Code_version: " +rb.getCodeVersion());
        rollbar.info("Starting setup() method before test starts");
    }
@@ -33,7 +33,7 @@ public class MyTests {
        try {
 
            RollbarAPI rbapi = new RollbarAPI();
-           rbapi.deploy(MyConfig.myToken, MyConfig.myENv, MyConfig.myVersion);
+        //   rbapi.deploy(MyConfig.myToken, MyConfig.myENv, MyConfig.myVersion);
            rollbar.info("Close Rollbar Connection");
            rollbar.close(true);
        } catch (Exception e) {
@@ -49,7 +49,7 @@ public class MyTests {
       //assertEquals(true, isUp);
    }
 
-  // @Test
+   @Test
    public void generateLotsErrors() {
 
        System.out.println("calling generateLotsErrors() test now");
@@ -153,7 +153,7 @@ public class MyTests {
         System.out.println("Calling generateRandomError()  method");
         rollbar.info(myHash+ " Information Message");
     }
-   // @Test
+    @Test
     public void unhandledException() {
 
         System.out.println("Calling unhandledException() test");

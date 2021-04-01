@@ -1,11 +1,15 @@
 
-import javax.crypto.spec.PSource;
+import netscape.javascript.JSObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+
+
+
 
 public class RollbarAPI {
 
@@ -117,6 +121,93 @@ public class RollbarAPI {
         }
         return value;
     }
+
+    public void getItems(String token, String environment, String errorLevel)
+    {
+        if (token != null) {
+
+            System.out.println("Lets get the current list of items for Environment: " +environment);
+
+            URL url = null;
+            BufferedReader reader = null;
+            StringBuilder stringBuilder;
+            boolean value = false;
+            String line = null;
+
+            try
+            {
+                // allow multiple TLS versions
+                System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
+                // create the HttpURLConnection
+                url = new URL(MyConfig.RBItemsURL);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.addRequestProperty("X-Rollbar-Access-Token", token);
+                connection.addRequestProperty("environment", environment);
+                connection.addRequestProperty("level", errorLevel);
+
+                // connection.setRequestProperty("Content-Length", "20");
+                // just want to do an HTTP GET here
+                connection.setRequestMethod("GET");
+
+                // uncomment this if you want to write output to this url
+                connection.setDoOutput(true);
+
+                // give it 15 seconds to respond
+                connection.setReadTimeout(15 * 1000);
+                connection.connect();
+
+                int responseCode = connection.getResponseCode();
+                System.out.println("Code is: " +responseCode);
+                System.out.println("Rollbar Deploy response is : " +connection.getResponseMessage());
+
+           /* if (responseCode == 200) {
+                System.out.println("Deploy was successful");
+                value = true;
+            } else {
+                System.out.println("Deploy was unsuccessful");
+            }*/
+
+                // read the output from the server
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.defaultCharset()));
+                stringBuilder = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line + "\n");
+                }
+
+               String resp = stringBuilder.toString();
+             //   JSONObject jsonObj = new JSONObject(jsonString.toString(resp));
+                System.out.println("\nRollbar items are : " +resp);
+
+
+            } catch (Exception e ) {
+                System.out.println("Error in getting Items" +e.getMessage());
+
+            }
+            finally {
+
+                // close the reader; this can throw an exception too, so
+                // wrap it in another try/catch block.
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    }
+                }
+            }
+            // return value;
+
+        } else {
+            System.out.println("Be sure to enter a valid token");
+            return;
+        }
+
+    }
+
+
+
 
     public boolean deploy(String token, String env, String vers) {
 

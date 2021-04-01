@@ -6,7 +6,7 @@ public class Utils {
 
     public static String changeEnv() {
 
-        String [] myEnvironments = {"QA","DEV","UAT","PROD"};
+        String [] myEnvironments = {"QA","DEV","UAT","PROD","PREPROD","STAGING","INTEGRATION"};
         int min = 0;
 
         Random rand = new Random();
